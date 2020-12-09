@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from alatoonews.settings import AUTH_USER_MODEL
 
 
 class AccountManager(BaseUserManager):
@@ -49,6 +53,10 @@ class Account(AbstractBaseUser, PermissionsMixin):
     def natural_key(self):
         return self.student_id
 
+@receiver(post_save, sender=AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 

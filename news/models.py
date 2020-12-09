@@ -8,7 +8,7 @@ class NewsItem(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, verbose_name='Оглавление')
     content = models.TextField(verbose_name='Текст')
-    image = models.ImageField(verbose_name='Изображение')
+    image = models.ImageField(verbose_name='Изображение', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
 

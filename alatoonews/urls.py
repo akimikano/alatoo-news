@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import SimpleRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
-from news.views import NewsView, AccountView, NewsCreateView
+from news.views import NewsView, AccountView, UserLogin, testView, testDetail, testCreate
 
 router = SimpleRouter()
 router.register('api/news', NewsView)
@@ -31,9 +31,11 @@ router.register('api/users', AccountView)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
-    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/news/create', NewsCreateView.as_view(), name='newscreate')
+    path('api/login/', UserLogin.as_view(), name='login'),
+    path('api/test/', testView, name='test'),
+    path('api/test-detail/<int:pk>', testDetail, name='test-detail'),
+    path('api/test-create/', testCreate, name='test-create')
 ]
 
 urlpatterns += router.urls
